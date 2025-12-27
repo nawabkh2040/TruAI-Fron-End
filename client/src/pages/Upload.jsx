@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageWrapper from "../components/PageWrapper";
 import logo from "../assets/logo.png";
+import {checkImage , checkVideo} from "../api/detection";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
@@ -22,13 +23,27 @@ const Upload = () => {
   };
 
   const handleAnalyze = () => {
+
+
+
     if (!file) return alert("Please upload a file first");
-    navigate("/processing", { state: { file, type } });
+
+    if (type === "image") {
+      checkImage(file).then((result) => {
+        navigate("/processing", { state: { file, type, result } });
+        console.log(result);
+      });
+    } else if (type === "video") {
+      checkVideo(file).then((result) => {
+        navigate("/processing", { state: { file, type, result } });
+        console.log(result);
+      });
+    }
   };
 
   return (
     <PageWrapper>
-      {/* NAVBAR */}
+      
       <nav onClick={() => navigate("/")} className="fixed top-0 w-full z-50 bg-[#0B0E1A]/80 backdrop-blur-lg px-8 py-4 flex items-center gap-3">
         <img src={logo} className="h-10" alt="logo"  />
         <h1 className="text-white text-xl font-semibold">
@@ -36,7 +51,7 @@ const Upload = () => {
         </h1>
       </nav>
 
-      {/* MAIN */}
+      
       <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center pt-32 px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
