@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageWrapper from "../components/PageWrapper";
 import logo from "../assets/logo.png";
-import {checkImage , checkVideo} from "../api/detection";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
@@ -23,35 +22,37 @@ const Upload = () => {
   };
 
   const handleAnalyze = () => {
-    if (!file) return alert("Please upload a file first.");
-
-    navigate("/processing",{state:{file, type},replace:true});
+    if (!file) {
+      alert("Please upload a file first.");
+      return;
+    }
+    navigate("/processing", { state: { file, type }, replace: true });
   };
 
   return (
     <PageWrapper>
-      
-      <nav onClick={() => navigate("/")} className="fixed top-0 w-full z-50 bg-[#0B0E1A]/80 backdrop-blur-lg px-8 py-4 flex items-center gap-3">
-        <img src={logo} className="h-10" alt="logo"  />
+      {/* NAVBAR */}
+      <nav onClick={()=>navigate("/")} className="fixed top-0 left-0 w-full z-50 bg-[#0B0E1A]/80 backdrop-blur-md px-6 py-4 flex items-center gap-3">
+        <img src={logo} alt="Logo" className="h-10" />
         <h1 className="text-white text-xl font-semibold">
           TruAI — Media Authenticity
         </h1>
       </nav>
 
-      
-      <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center pt-32 px-4">
+      {/* CONTENT */}
+      <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center pt-28 px-4">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-xl bg-[#12182A] border border-white/10 rounded-2xl p-8"
+          className="w-full max-w-xl bg-[#12182A] rounded-2xl p-8"
         >
           <h2 className="text-white text-3xl font-semibold text-center mb-6">
             Upload Media
           </h2>
 
-        
-          <div className="flex gap-4 mb-6 justify-center">
+          {/* TYPE SELECT */}
+          <div className="flex justify-center gap-4 mb-6">
             {["image", "video"].map((t) => (
               <button
                 key={t}
@@ -67,7 +68,7 @@ const Upload = () => {
             ))}
           </div>
 
-         
+          {/* DROP ZONE */}
           <div
             onDragOver={(e) => {
               e.preventDefault();
@@ -75,8 +76,7 @@ const Upload = () => {
             }}
             onDragLeave={() => setDragActive(false)}
             onDrop={handleDrop}
-            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition 
-            ${
+            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition ${
               dragActive
                 ? "border-indigo-500 bg-indigo-500/10"
                 : "border-gray-600"
@@ -90,7 +90,7 @@ const Upload = () => {
             />
             <label htmlFor="fileInput" className="cursor-pointer">
               <p className="text-gray-300">
-                Drag & drop your file here or{" "}
+                Drag & drop your file or{" "}
                 <span className="text-indigo-400 underline">browse</span>
               </p>
               <p className="text-xs text-gray-500 mt-2">
@@ -99,7 +99,7 @@ const Upload = () => {
             </label>
           </div>
 
-          
+          {/* PREVIEW */}
           {file && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -123,10 +123,9 @@ const Upload = () => {
             </motion.div>
           )}
 
-         
           <button
             onClick={handleAnalyze}
-            className="mt-8 w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition font-semibold"
+            className="mt-8 w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition font-semibold"
           >
             Analyze Media
           </button>

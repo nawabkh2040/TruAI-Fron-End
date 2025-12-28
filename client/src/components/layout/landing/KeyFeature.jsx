@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import image1 from "../../../assets/5.avif";
 import image2 from "../../../assets/6.avif";
 import image3 from "../../../assets/7.avif";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 
 const cards = [
   {
@@ -23,7 +22,7 @@ const cards = [
   },
 ];
 
-const FeatureCard = ({ index, title, desc, img }) => {
+const FeatureCard = ({ title, desc, img }) => {
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -31,34 +30,39 @@ const FeatureCard = ({ index, title, desc, img }) => {
     offset: ["start end", "end start"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const blur = useTransform(scrollYProgress, [0, 1], ["0px", "14px"]);
+  const blur = useTransform(scrollYProgress, [0, 1], ["0px", "10px"]);
 
   return (
     <motion.div
       ref={ref}
       style={{ scale, opacity, filter: blur }}
-      className="sticky top-24 mb-40"
-      id='feature'
+      className="sticky top-24 mb-32"
+      id="feature"
     >
-      <div  className="bg-[#e9eae3] rounded-3xl p-10 flex gap-16 items-center">
+      <div className="bg-[#e9eae3] rounded-3xl p-6 sm:p-10 flex flex-col lg:flex-row gap-10 items-center">
         
-        <div className="w-1/2">
+        {/* Image */}
+        <div className="w-full lg:w-1/2">
           <img
             src={img}
-            className="rounded-2xl shadow-xl"
             alt={title}
+            className="rounded-2xl shadow-xl w-full object-cover"
           />
         </div>
 
-        
-        <div className="w-1/2">
+        {/* Text */}
+        <div className="w-full lg:w-1/2 text-center lg:text-left">
           <p className="text-sm uppercase tracking-wide text-gray-500 mb-3">
             Feature
           </p>
-          <h2 className="text-4xl font-semibold mb-4">{title}</h2>
-          <p className="text-gray-600 text-lg leading-relaxed">{desc}</p>
+          <h2 className="text-3xl sm:text-4xl font-semibold mb-4">
+            {title}
+          </h2>
+          <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+            {desc}
+          </p>
         </div>
       </div>
     </motion.div>
@@ -67,15 +71,15 @@ const FeatureCard = ({ index, title, desc, img }) => {
 
 const KeyFeature = () => {
   return (
-    <section className="bg-[#ECEDE7] pt-32 pb-6">
+    <section className="bg-[#ECEDE7] py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-5xl font-bold mb-20">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-20 text-center">
           See the truth in every pixel
         </h2>
 
         <div className="space-y-[40vh]">
-          {cards.map((item, i) => (
-            <FeatureCard key={i} {...item} />
+          {cards.map((item, index) => (
+            <FeatureCard key={index} {...item} />
           ))}
         </div>
       </div>
