@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/logo-CX2Yl9fi.png";
 import { Button } from "../../ui/button";
 import BlurText from "../../BlurText";
 import { useNavigate } from "react-router-dom";

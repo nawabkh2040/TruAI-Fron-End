@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageWrapper from "../components/PageWrapper";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo-CX2Yl9fi.png";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
